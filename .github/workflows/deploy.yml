@@ -1,0 +1,31 @@
+name: GAS Auto Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: コードを受け取る
+        uses: actions/checkout@v3
+
+      - name: ロボットにNode.jsを準備させる
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: clasp（GAS操作ツール）をインストール
+        run: npm install -g @google/clasp
+
+      - name: マスターキーをセットアップ
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+        run: echo "$CLASPRC_JSON" > ~/.clasprc.json
+
+      - name: GASへ自動送信 ＆ 本番反映！
+        run: |
+          clasp push --force
+          clasp deploy

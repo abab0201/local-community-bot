@@ -1,5 +1,5 @@
 /**
- * Discord司令塔 × LINE一斉配信システム v3.0 (Silent Queue)
+ * Discord司令塔 × LINE一斉配信システム v3.1 (Termux Deploy) (Silent Queue)
  * * 概要: 夜間(21:00-07:00)の投稿をプールし、翌朝7:05に一括送信する機能を追加。
  * * 緊急突破: 「緊急」というキーワードが含まれる場合は夜間でも即時配信。
  */
@@ -116,7 +116,7 @@ function triggerSync() {
   if (!lock.tryLock(5000)) return;
 
   try {
-    console.log('🔍 Discord同期処理(v3.0)を実行中...');
+    console.log('🔍 Discord同期処理(v3.1 (Termux Deploy))を実行中...');
     const bot = new BotApp();
     bot.syncDiscordToLine();
   } catch (e) {
@@ -587,7 +587,7 @@ class DiscordService {
       UrlFetchApp.fetch(`https://discord.com/api/v10/channels/${this.channelId}/messages`, {
         method: 'post', headers: {
           'Authorization': `Bot ${this.botToken}`, 'Content-Type': 'application/json',
-          'User-Agent': 'DiscordBot (https://google.com, v3.0) AppsScript/1.0' 
+          'User-Agent': 'DiscordBot (https://google.com, v3.1 (Termux Deploy)) AppsScript/1.0' 
         }, payload: JSON.stringify({ content: text })
       });
     } catch (e) {}
@@ -599,7 +599,7 @@ class DiscordService {
     if (lastId) url += `&after=${lastId}`;
     try {
       const options = {
-        headers: { 'Authorization': `Bot ${this.botToken}`, 'User-Agent': 'DiscordBot (https://google.com, v3.0) AppsScript/1.0' },
+        headers: { 'Authorization': `Bot ${this.botToken}`, 'User-Agent': 'DiscordBot (https://google.com, v3.1 (Termux Deploy)) AppsScript/1.0' },
         muteHttpExceptions: true
       };
       const res = this.fetchWithRetry(url, options);
